@@ -27,7 +27,7 @@ function sendLogin() {
 
             sessionStorage.setItem('currentUser', this.responseText)
 
-            window.location = "http://localhost:8080/EmployeeDBServlets/home.html";
+            window.location = "http://localhost:8080/Project-1/index.html";
 
             console.log(sessionStorage.getItem('currentUser'));
         }
@@ -42,7 +42,7 @@ function sendLogin() {
     }
     
     // 3. xhr.open("POST, "http:/localhost:8080/EmployeeDBServlet/url for the loginServlet")
-    xhr.open("POST", "http://localhost:8080/EmployeeDBServlets/login")
+    xhr.open("POST", "http://localhost:8080/Project-1/login")
 
     // 4. xhr.send();
     xhr.send(JSON.stringify(loginTemplate))

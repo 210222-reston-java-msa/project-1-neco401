@@ -20,41 +20,41 @@ public class ReimburseTicket {
 	private String description;
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="Employee_FK")
-	private Employee author;
+	private int authorId;
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name="Manager_FK")
-	private Manager resolver;
-	@Column(name="status")
-	private boolean status = false;
-	@Column(name="type")
-	private String type;
+	private int resolverId;
+	@OneToOne 
+	private int statusId;
+	@OneToOne
+	private int typeId;
 	
 	public ReimburseTicket() {
 		
 	}
 
-	public ReimburseTicket(double amount, Timestamp submitted, Timestamp resolved, String description, boolean status, String type) {
+	public ReimburseTicket(double amount, Timestamp submitted, Timestamp resolved, String description, int status, int type) {
 		super();
 		this.amount = amount;
 		this.submitted = submitted;
 		this.resolved = resolved;
 		this.description = description;
-		this.status = status;
-		this.type = type;
+		this.statusId = status;
+		this.typeId = type;
 	}
 
 	public ReimburseTicket(int id, double amount, Timestamp submitted, Timestamp resolved, String description,
-			Employee author, Manager resolver, boolean status, String type) {
+			int author, int resolver, int status, int type) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.submitted = submitted;
 		this.resolved = resolved;
 		this.description = description;
-		this.author = author;
-		this.resolver = resolver;
-		this.status = status;
-		this.type = type;
+		this.authorId = author;
+		this.resolverId = resolver;
+		this.statusId = status;
+		this.typeId = type;
 	}
 
 	public int getId() {
@@ -97,36 +97,52 @@ public class ReimburseTicket {
 		this.description = description;
 	}
 
-	public Employee getAuthor() {
-		return author;
+	public int getAuthorId() {
+		return authorId;
 	}
 
-	public void setAuthor(Employee author) {
-		this.author = author;
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
 	}
 
-	public Manager getResolver() {
-		return resolver;
+	public int getResolverId() {
+		return resolverId;
 	}
 
-	public void setResolver(Manager resolver) {
-		this.resolver = resolver;
+	public void setResolverId(int resolverId) {
+		this.resolverId = resolverId;
 	}
 
-	public boolean isStatus() {
-		return status;
+	public int getStatusId() {
+		return statusId;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
 	}
 
-	public String getType() {
-		return type;
+	public int getTypeId() {
+		return typeId;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
+	}
+
+	public int isStatus() {
+		return statusId;
+	}
+
+	public void setStatus(int status) {
+		this.statusId = status;
+	}
+
+	public int getType() {
+		return typeId;
+	}
+
+	public void setType(int type) {
+		this.typeId = type;
 	}
 
 	@Override
@@ -136,14 +152,14 @@ public class ReimburseTicket {
 		long temp;
 		temp = Double.doubleToLongBits(amount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
+		result = prime * result + authorId;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((resolved == null) ? 0 : resolved.hashCode());
-		result = prime * result + ((resolver == null) ? 0 : resolver.hashCode());
-		result = prime * result + (status ? 1231 : 1237);
+		result = prime * result + resolverId;
+		result = prime * result + statusId;
 		result = prime * result + ((submitted == null) ? 0 : submitted.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + typeId;
 		return result;
 	}
 
@@ -158,10 +174,7 @@ public class ReimburseTicket {
 		ReimburseTicket other = (ReimburseTicket) obj;
 		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
 			return false;
-		if (author == null) {
-			if (other.author != null)
-				return false;
-		} else if (!author.equals(other.author))
+		if (authorId != other.authorId)
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -175,22 +188,16 @@ public class ReimburseTicket {
 				return false;
 		} else if (!resolved.equals(other.resolved))
 			return false;
-		if (resolver == null) {
-			if (other.resolver != null)
-				return false;
-		} else if (!resolver.equals(other.resolver))
+		if (resolverId != other.resolverId)
 			return false;
-		if (status != other.status)
+		if (statusId != other.statusId)
 			return false;
 		if (submitted == null) {
 			if (other.submitted != null)
 				return false;
 		} else if (!submitted.equals(other.submitted))
 			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
+		if (typeId != other.typeId)
 			return false;
 		return true;
 	}
@@ -198,8 +205,8 @@ public class ReimburseTicket {
 	@Override
 	public String toString() {
 		return "ReimburseTicket [id=" + id + ", amount=" + amount + ", submitted=" + submitted + ", resolved="
-				+ resolved + ", description=" + description + ", author=" + author.getFirstName() + " " + author.getLastName() + ", resolver=" + resolver.getFirstName()
-				+" "+ resolver.getLastName() + ", status=" + status + ", type=" + type + "]";
+				+ resolved + ", description=" + description + ", authorId=" + authorId + ", resolverId=" + resolverId
+				+ ", statusId=" + statusId + ", typeId=" + typeId + "]";
 	}
 
 }
