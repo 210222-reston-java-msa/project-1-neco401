@@ -10,32 +10,30 @@ import com.revature.util.RequestHelper;
 
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public FrontController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		final String URI = request.getRequestURI().replace("/EmployeeDBServlets/", "");
-		
-		switch(URI) {
-		case "login":
-			RequestHelper.processLogin(request, response);
-			break;
-			
-		case "logout":
-			RequestHelper.processLogout(request, response);
-			break;
-		
-		case "error":
-			RequestHelper.processError(request, response);
-			break;
-		} 
+				final String URI = request.getRequestURI().replace("/maven-unit-test/", "");
+				
+				switch(URI) {
+				case "login":
+					RequestHelper.processLogin(request, response);
+					break;
+				case "logout":
+					RequestHelper.processLogout(request, response);
+					break;
+				case "users":
+					RequestHelper.processUsers(request, response);
+					break;
+				case "ticket":
+					RequestHelper.processTicket(request, response);
+					break;
+				case "error":
+					RequestHelper.processError(request, response);
+					break;
+				} 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

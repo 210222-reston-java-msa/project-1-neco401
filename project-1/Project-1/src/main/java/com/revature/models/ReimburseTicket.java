@@ -1,60 +1,57 @@
 package com.revature.models;
 
 import java.sql.Timestamp;
-import javax.persistence.*;
 
-@Entity
-@Table(name="reimburse_ticket")
 public class ReimburseTicket {
-	@Id //Primary Key
-	@Column(name="ticket_id")//column name
-	@GeneratedValue(strategy=GenerationType.AUTO) //SERIAL
 	private int id;
-	@Column(name="amount")
-	private double amount = 0.0;
-	@Column(name="submitted")
-	private Timestamp submitted;
-	@Column(name="resolved")
-	private Timestamp resolved;
-	@Column(name="description")
+	private double amount;
+	private java.sql.Timestamp dateSubmitted;
+	private java.sql.Timestamp  dateResolved;
 	private String description;
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="Employee_FK")
-	private int authorId;
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinColumn(name="Manager_FK")
-	private int resolverId;
-	@OneToOne 
-	private int statusId;
-	@OneToOne
-	private int typeId;
+	private int author;
+	private int resolver;
+	private int status;
+	private int type;
 	
 	public ReimburseTicket() {
 		
 	}
 
-	public ReimburseTicket(double amount, Timestamp submitted, Timestamp resolved, String description, int status, int type) {
+	public ReimburseTicket(double amount, java.sql.Timestamp  dateSubmitted, String description, int author, int status,
+			int type) {
 		super();
 		this.amount = amount;
-		this.submitted = submitted;
-		this.resolved = resolved;
+		this.dateSubmitted = dateSubmitted;
 		this.description = description;
-		this.statusId = status;
-		this.typeId = type;
+		this.author = author;
+		this.status = status;
+		this.type = type;
+	}
+	
+	public ReimburseTicket(int id, double amount, Timestamp dateSubmitted, String description, int author, int status,
+			int type) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.dateSubmitted = dateSubmitted;
+		this.description = description;
+		this.author = author;
+		this.status = status;
+		this.type = type;
 	}
 
-	public ReimburseTicket(int id, double amount, Timestamp submitted, Timestamp resolved, String description,
+	public ReimburseTicket(int id, double amount, java.sql.Timestamp  dateSubmitted, java.sql.Timestamp  dateResolved, String description,
 			int author, int resolver, int status, int type) {
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.submitted = submitted;
-		this.resolved = resolved;
+		this.dateSubmitted = dateSubmitted;
+		this.dateResolved = dateResolved;
 		this.description = description;
-		this.authorId = author;
-		this.resolverId = resolver;
-		this.statusId = status;
-		this.typeId = type;
+		this.author = author;
+		this.resolver = resolver;
+		this.status = status;
+		this.type = type;
 	}
 
 	public int getId() {
@@ -73,20 +70,20 @@ public class ReimburseTicket {
 		this.amount = amount;
 	}
 
-	public Timestamp getSubmitted() {
-		return submitted;
+	public java.sql.Timestamp getDateSubmitted() {
+		return dateSubmitted;
 	}
 
-	public void setSubmitted(Timestamp submitted) {
-		this.submitted = submitted;
+	public void setDateSubmitted(java.sql.Timestamp  dateSubmitted) {
+		this.dateSubmitted = dateSubmitted;
 	}
 
-	public Timestamp getResolved() {
-		return resolved;
+	public java.sql.Timestamp  getDateResolved() {
+		return dateResolved;
 	}
 
-	public void setResolved(Timestamp resolved) {
-		this.resolved = resolved;
+	public void setDateResolved(java.sql.Timestamp  dateResolved) {
+		this.dateResolved = dateResolved;
 	}
 
 	public String getDescription() {
@@ -97,52 +94,36 @@ public class ReimburseTicket {
 		this.description = description;
 	}
 
-	public int getAuthorId() {
-		return authorId;
+	public int getAuthor() {
+		return author;
 	}
 
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
+	public void setAuthor(int author) {
+		this.author = author;
 	}
 
-	public int getResolverId() {
-		return resolverId;
+	public int getResolver() {
+		return resolver;
 	}
 
-	public void setResolverId(int resolverId) {
-		this.resolverId = resolverId;
+	public void setResolver(int resolver) {
+		this.resolver = resolver;
 	}
 
-	public int getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
-	}
-
-	public int getTypeId() {
-		return typeId;
-	}
-
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
-	}
-
-	public int isStatus() {
-		return statusId;
+	public int getStatus() {
+		return status;
 	}
 
 	public void setStatus(int status) {
-		this.statusId = status;
+		this.status = status;
 	}
 
 	public int getType() {
-		return typeId;
+		return type;
 	}
 
 	public void setType(int type) {
-		this.typeId = type;
+		this.type = type;
 	}
 
 	@Override
@@ -152,14 +133,14 @@ public class ReimburseTicket {
 		long temp;
 		temp = Double.doubleToLongBits(amount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + authorId;
+		result = prime * result + author;
+		result = prime * result + ((dateResolved == null) ? 0 : dateResolved.hashCode());
+		result = prime * result + ((dateSubmitted == null) ? 0 : dateSubmitted.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((resolved == null) ? 0 : resolved.hashCode());
-		result = prime * result + resolverId;
-		result = prime * result + statusId;
-		result = prime * result + ((submitted == null) ? 0 : submitted.hashCode());
-		result = prime * result + typeId;
+		result = prime * result + resolver;
+		result = prime * result + status;
+		result = prime * result + type;
 		return result;
 	}
 
@@ -174,7 +155,17 @@ public class ReimburseTicket {
 		ReimburseTicket other = (ReimburseTicket) obj;
 		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
 			return false;
-		if (authorId != other.authorId)
+		if (author != other.author)
+			return false;
+		if (dateResolved == null) {
+			if (other.dateResolved != null)
+				return false;
+		} else if (!dateResolved.equals(other.dateResolved))
+			return false;
+		if (dateSubmitted == null) {
+			if (other.dateSubmitted != null)
+				return false;
+		} else if (!dateSubmitted.equals(other.dateSubmitted))
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -183,30 +174,21 @@ public class ReimburseTicket {
 			return false;
 		if (id != other.id)
 			return false;
-		if (resolved == null) {
-			if (other.resolved != null)
-				return false;
-		} else if (!resolved.equals(other.resolved))
+		if (resolver != other.resolver)
 			return false;
-		if (resolverId != other.resolverId)
+		if (status != other.status)
 			return false;
-		if (statusId != other.statusId)
-			return false;
-		if (submitted == null) {
-			if (other.submitted != null)
-				return false;
-		} else if (!submitted.equals(other.submitted))
-			return false;
-		if (typeId != other.typeId)
+		if (type != other.type)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "ReimburseTicket [id=" + id + ", amount=" + amount + ", submitted=" + submitted + ", resolved="
-				+ resolved + ", description=" + description + ", authorId=" + authorId + ", resolverId=" + resolverId
-				+ ", statusId=" + statusId + ", typeId=" + typeId + "]";
+		return "ReimburseTicket [id=" + id + ", amount=" + amount + ", dateSubmitted=" + dateSubmitted
+				+ ", dateResolved=" + dateResolved + ", desciption=" + description + ", author=" + author + ", resolver="
+				+ resolver + ", status=" + status + ", type=" + type + "]";
 	}
-
+	
+	
 }

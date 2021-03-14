@@ -29,11 +29,10 @@ CREATE TABLE reimbursement(
 	submitted TIMESTAMP,
 	resolved TIMESTAMP,
 	description VARCHAR(250),
-	author INTEGER FOREIGN KEY,
-	resolver INTEGER FOREIGN KEY,
+	author INTEGER,
+	resolver INTEGER,
 	status_id INTEGER NOT NULL REFERENCES reimbursement_status(id),
 	type_id INTEGER NOT NULL REFERENCES reimbursement_type(id)
-
 );
 
 INSERT INTO roles (id, role_name)
@@ -42,16 +41,25 @@ INSERT INTO roles (id, role_name)
 INSERT INTO reimbursement_type (id, r_type)
 	VALUES (1, 'LODGING'), (2, 'TRAVEL'), (3, 'FOOD'), (4, 'OTHER');
 
-INSERT INTO reimbusement_status (id, status)
-	VALUES (1, 'PENDING'), (2, 'RESOLVED');
+INSERT INTO reimbursement_status (id, status)
+	VALUES (1, 'PENDING'), (2, 'ACCEPTED'), (3, 'DENIED');
 
 INSERT INTO users (username, passcode, first_name, last_name, email, role_id)
 	VALUES ('lonelyboi', 'makedemsmonies', 'Yu', 'Ishigami', 'SATreasurer@shuchiinmail.com', 1),
 			('IceQueen11', 'I<3Shirogane', 'Kaguya', 'Shinomiya', 'SAVicePresident@shuchiinmail.com', 2),
 			('Ai_detective', 'leaveit2me', 'Chika', 'Fujiwara', 'SASecretary@shuchiinmail.com', 2);
 
-	
-	
+INSERT INTO users (username, passcode, first_name, last_name, email, role_id)
+	VALUES ('classPrez', 'kaguyaDaisuke', 'Miyuki', 'Shirogane', 'SAPresident@shuchiinmail.com', 1);
+
+INSERT INTO reimbursement (amount, submitted, description, author, status_id, type_id)
+	VALUES (2.50, CURRENT_TIMESTAMP, 'Bus fares', 2, 1, 2), (5377.93, '2016-06-22 19:10:25-07', 'Disney Lodging', 3, 3, 1),
+			(50, CURRENT_TIMESTAMP, 'Stockpile for Culture Festival', 2, 2, 3);
+
+SELECT * FROM users;
+SELECT * FROM reimbursement WHERE reimbursement.id = 1 ;
+
+
 	
 	
 	
