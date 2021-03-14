@@ -74,9 +74,15 @@
 				if (this.readyState === 4 && this.status === 200) {
 					console.log("success");
 
-					sessionStorage.setItem('currentUser', this.responseText)
-
-					window.location = "http://localhost8080/maven-unit-test/managerLogin.html";
+					sessionStorage.setItem('currentUser', this.responseText);
+					let user = JSON.parse(this.responseText);
+					if(user.roleId == 1){
+						window.location = "http://localhost:8080/maven-unit-test/mhome.html";
+					}
+					
+					if(user.roleId == 2){
+						window.location = "http://localhost:8080/maven-unit-test/ehome.html";
+					}
 
 					console.log(sessionStorage.getItem('currentUser'));
 				}

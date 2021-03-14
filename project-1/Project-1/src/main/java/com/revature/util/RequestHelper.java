@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,8 +49,10 @@ public class RequestHelper {
 		
 		log.info("User attempted to login with username: " + username);
 		User u = UserService.confirmLogin(username, password);
+		
+		log.info(u);
 			
-		if (u != null && u.getRoleId() == 1) {
+		if (u != null) {
 			// get the current session OR create one if it doesn't exist
 			HttpSession session = req.getSession();
 			session.setAttribute("username", username);
@@ -65,34 +68,10 @@ public class RequestHelper {
 			
 			log.info(username + " has successfully logged in");	
 			
-			try {
-				req.getRequestDispatcher("managerLogin.html").forward(req, res);
-			} catch (ServletException | IOException e) {
-				e.printStackTrace();
-			}
-		} else if (u != null && u.getRoleId() == 2) {
-			HttpSession session = req.getSession();
-			session.setAttribute("username", username);
-	
-			PrintWriter pw = res.getWriter();
-			res.setContentType("application/json");
-			
-			pw.println(om.writeValueAsString(u));
-			
-			log.info(username + " has successfully logged in");	
-			
-			try {
-				req.getRequestDispatcher("employeeLogin.html").forward(req, res);
-			} catch (ServletException | IOException e) {
-				e.printStackTrace();
-			}
 		}else {
 			res.setStatus(204); // this means that we still have a connection, but no user is found
-		}
-		
-		
+		}	
 	}
-	
 	
 	public static void processLogout(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		HttpSession session = req.getSession(false); // I'm capturing the session, but if there ISN'T one, I don't create a new one.
