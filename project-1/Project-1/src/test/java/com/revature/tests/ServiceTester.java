@@ -33,6 +33,7 @@ public class ServiceTester {
 	User treasurer = new User(1,"lonelyboi", "makedemsmonies", "Yu", "Ishigami", "SATreasurer@shuchiinmail.com", 1, "Manager");
 	User secretary = new User(3, "Ai_detective", "leaveit2me", "Chika", "Fujiwara", "SASecretary@shuchiinmail.com", 2 ,"Employee");
 	
+	//The first Timestamp will have to updated to the current time the DB script is ran, otherwise there will be errors
 	Timestamp timestamp1 = Timestamp.valueOf("2021-03-13 18:36:49.589165");
 	Timestamp timestamp2 = Timestamp.valueOf("2016-06-22 19:10:25.0");
 	
