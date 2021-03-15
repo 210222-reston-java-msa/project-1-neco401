@@ -186,7 +186,7 @@ public class ReimburseTicket {
 	@Override
 	public String toString() {
 		return "ReimburseTicket [id=" + id + ", amount=" + amount + ", dateSubmitted=" + dateSubmitted
-				+ ", dateResolved=" + dateResolved + ", desciption=" + description + ", author=" + author + ", resolver="
+				+ ", dateResolved=" + dateResolved + ", description=" + description + ", author=" + author + ", resolver="
 				+ resolver + ", status=" + status + ", type=" + type + "]";
 	}
 	

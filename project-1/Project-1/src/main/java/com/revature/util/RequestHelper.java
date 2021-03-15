@@ -3,6 +3,7 @@ package com.revature.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.LoginTemplate;
 import com.revature.models.ReimburseTicket;
@@ -135,4 +137,40 @@ public class RequestHelper {
 		}
 	
 	}
+
+	public static void processEmployee(HttpServletRequest request, HttpServletResponse response) {
+		// 1. Set the content type to app/json because we will be sending json data back to the client, 
+				// stuck alongside the response
+				log.info(UserService.findAll());
+				response.setContentType("application/json");
+				
+				// 2. Get a list of all Employees in the DB
+				List<User> all = UserService.findAll();
+				
+				List<User> allEmps = new ArrayList<User>();
+				
+				for(User u: all) {
+					if (u.getRoleId() == 2) {
+						allEmps.add(u);
+					}
+				}
+				
+				// 3. Turn the list of Java Objs into a JSON string
+				String json;
+				try {
+					json = om.writeValueAsString(allEmps);
+					
+					PrintWriter pw = response.getWriter();
+					pw.println(json);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				// 4. Use getWriter() from the response object to return the json string
+				
+		
+	}
+
+
 }
